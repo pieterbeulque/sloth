@@ -36,12 +36,12 @@ InlineSloth.prototype.wrap = function () {
 InlineSloth.prototype.onLoad = function ($img) {
   var $wrapper = this.$element.closest('.sloth');
 
-  $wrapper.removeClass('is-loading');
-
   // Set width to the actual CSS property or inherited width instead of fixed placeholder
   $wrapper.css('width', this.width);
 
-  this.$element.hide().attr('src', $img.attr('src')).fadeIn(440);
+  this.$element.hide().attr('src', $img.attr('src')).fadeIn(440, function () {
+    $wrapper.removeClass('is-loading');
+  });
 
   // Compensate the difference between the assumed ratio and the actual image height
   $wrapper.animate({ 'height': this.initialWidth / $img.width() * $img.height() }, 440, function () {

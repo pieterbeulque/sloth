@@ -62,6 +62,37 @@
     .sloth {
       margin-bottom: 30px;
     }
+
+    .sloth.is-loading {
+      background-color: #fff;
+      position: relative;
+    }
+
+    @-webkit-keyframes rotate {
+      0% {
+        transform: rotate(0);
+      } 100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .sloth.is-loading:after {
+      background-color: #f9705a;
+      content: '';
+      display: block;
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -10px;
+      margin-top: -10px;
+      -webkit-animation-name: rotate;
+      -webkit-animation-duration: 2s;
+      -webkit-animation-iteration-count: infinite;
+      z-index: 1;
+    }
   </style>
 </head>
 <body>
@@ -92,8 +123,10 @@
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere qui eius, nemo!</p>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis quisquam itaque illum quidem adipisci nostrum. Vel magni consectetur, optio porro recusandae eius est?</p>
     </div>
+    <h2>Loading animation</h2>
+    <img data-src="//c.assets.sh/gwABrIqc_Y3snxAr/medium" />
   </div>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="jquery.js"></script>
   <script type="text/javascript">
     exports = {};
   </script>
