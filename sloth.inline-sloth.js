@@ -21,7 +21,15 @@ InlineSloth.prototype.wrap = function () {
     'font-size': 0
   });
 
-  this.$element.css('display', 'block');
+  // Since the wrapper took over the positioning of the image,
+  // make the image fill the wrapper
+  this.$element.css({
+    'display': 'block',
+    'width': '100%',
+    'position': 'relative',
+    'z-index': 2
+  });
+
   this.$element.wrap($wrapper);
 }
 

@@ -59,8 +59,6 @@ Sloth.prototype.reserveSpace = function () {
   }
 
   this.initialHeight = this.initialWidth * 9 / 16;
-
-  this.$element.css('width', '100%');
 };
 
 Sloth.prototype.preload = function (callback) {
