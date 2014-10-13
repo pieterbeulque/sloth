@@ -29,9 +29,7 @@ Sloth.prototype.init = function () {
 
   // this.parseOptions();
   this.parseSource();
-
   this.wrap();
-
   this.preload($.proxy(this.onLoad, this));
 
   return this;
@@ -46,25 +44,26 @@ Sloth.prototype.reserveSpace = function () {
       width = parseInt(this.$element.css('width'), 10);
 
   if (!!width) {
+    // Element has specified width
     this.initialWidth = width;
     this.width = (this.$element.get(0).style.width !== '') ? this.$element.get(0).style.width : this.initialWidth;
   } else {
+    // Inherit width
     this.initialWidth = parseInt(this.$element.parent().css('width'));
     this.width = this.initialWidth;
 
+    // When having a max-width specified, the image doesn't need a set width
     if (this.$element.css('max-width') !== 'none') {
       this.width = '';
     }
   }
 
   this.initialHeight = this.initialWidth * 9 / 16;
-
-  this.$element.css('width', '100%');
 };
 
 Sloth.prototype.preload = function (callback) {
   var $img = $('<img />');
-  console.log('Start preloading image');
+
   $img.hide().appendTo(this.$preloader)
       .on('load', function () {
         callback($img)
@@ -144,6 +143,7 @@ InlineSloth.prototype.wrap = function () {
   // Calculate reserved width and height
   this.reserveSpace();
 
+  // Take in the reserved space in the DOM
   $wrapper.css({
     'width': this.initialWidth,
     'height': this.initialHeight,
@@ -152,16 +152,29 @@ InlineSloth.prototype.wrap = function () {
     'font-size': 0
   });
 
-  this.$element.css('display', 'block');
+  // Since the wrapper took over the positioning of the image,
+  // make the image fill the wrapper
+  this.$element.css({
+    'display': 'block',
+    'width': '100%',
+    'position': 'relative',
+    'z-index': 2
+  });
+
   this.$element.wrap($wrapper);
 }
 
 InlineSloth.prototype.onLoad = function ($img) {
   var $wrapper = this.$element.closest('.sloth');
 
-  $wrapper.removeClass('is-loading');
+  // Set width to the actual CSS property or inherited width instead of fixed placeholder
   $wrapper.css('width', this.width);
-  this.$element.hide().attr('src', $img.attr('src')).fadeIn(440);
+
+  this.$element.hide().attr('src', $img.attr('src')).fadeIn(440, function () {
+    $wrapper.removeClass('is-loading');
+  });
+
+  // Compensate the difference between the assumed ratio and the actual image height
   $wrapper.animate({ 'height': this.initialWidth / $img.width() * $img.height() }, 440, function () {
     $wrapper.css('height', '');
   });

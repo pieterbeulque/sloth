@@ -152,7 +152,7 @@ InlineSloth.prototype.wrap = function () {
     'font-size': 0
   });
 
-  // Since the wrapper took over the positioning of the iage,
+  // Since the wrapper took over the positioning of the image,
   // make the image fill the wrapper
   this.$element.css({
     'display': 'block',
