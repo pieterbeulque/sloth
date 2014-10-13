@@ -1,0 +1,13 @@
+{
+  "name": "sloth",
+  "version": "0.0.1",
+  "description": "Lazy is a lazy image loading solution that works on both inline images and as background images, on any viewport, on any device",
+  "author": "Pieter Beulque <pieter@mrhenry.be>",
+  "devDependencies": {
+    "gulp": "^3.8.8",
+    "gulp-concat": "^2.4.1",
+    "gulp-uglify": "^1.0.1",
+    "gulp-util": "^3.0.1",
+    "gulp-wrap": "^0.3.0"
+  }
+}

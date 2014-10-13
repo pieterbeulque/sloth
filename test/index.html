@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      background-color: #f9705a;
+      position: relative;
+      font-family: Fira Mono, monospace;
+      color: rgba(0, 0, 0, .75);
+      line-height: 1.35;
+    }
+
+    h1, h2, h3 {
+      font-weight: 400;
+      letter-spacing: 1px;
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    h2 {
+      font-size: 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #fff;
+      margin-bottom: 24px;
+    }
+
+    .intro {
+      margin-top: .2em;
+      margin-bottom: 1em;
+    }
+
+    #demo {
+      margin: 3em auto;
+      width: 90%;
+      max-width: 580px;
+    }
+
+    #demo > div {
+      padding: 20px;
+      color: #fff;
+      text-shadow: 0 0 2px rgba(0, 0, 0, .2);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    .sloth {
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo">
+    <h1>Sloth</h1>
+    <p class="intro">
+      <strong>Sloth</strong> is a lazy image loading solution that works on both inline images and as background images, on any viewport, on any device.
+    </p>
+    <h2>Lazy inline image</h2>
+    <h3>Image without preset width</h3>
+    <img data-src="//c.assets.sh/gwABrIqc_Y3snxAr/medium" />
+    <h3>Image with preset width (attribute)</h3>
+    <img data-src="//c.assets.sh/gwABrIqc_Y3snxAr/medium" width="450" />
+    <h3>Image with percentual width (CSS)</h3>
+    <img data-src="//c.assets.sh/gwABrIqc_Y3snxAr/medium" style="width: 50%" />
+    <h3>Image with max-width: 100% / Responsive image</h3>
+    <img data-src="//c.assets.sh/gwABrIqc_Y3snxAr/medium" style="max-width: 100%" />
+    <h2>Lazy background image</h2>
+    <h3>background-size: contain;</h3>
+    <div data-src="//c.assets.sh/gwABrIqc_Y3snxAr/medium" style="background-size: contain;">
+      <p><strong>Sample content</strong></p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere qui eius, nemo!</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis quisquam itaque illum quidem adipisci nostrum. Vel magni consectetur, optio porro recusandae eius est?</p>
+    </div>
+    <h3>background-size: cover;</h3>
+    <div data-src="//c.assets.sh/gwABrIqc_Y3snxAr/medium" style="background-size: cover;">
+      <p><strong>Sample content</strong></p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere qui eius, nemo!</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis quisquam itaque illum quidem adipisci nostrum. Vel magni consectetur, optio porro recusandae eius est?</p>
+    </div>
+  </div>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    exports = {};
+  </script>
+  <script type="text/javascript" src="sloth.js"></script>
+  <script type="text/javascript">
+    exports.init();
+  </script>
+</body>
+</html>
