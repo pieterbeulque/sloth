@@ -20,6 +20,8 @@ function Sloth($element, options) {
   this.init().bind();
 }
 
+window.Sloth = Sloth;
+
 /**
  * Init everything
  * @return {Sloth} Instance for chainability
@@ -87,9 +89,21 @@ Sloth.prototype.unbind = function () {
   return this;
 };
 
+Sloth.load = function (selector) {
+  $(selector).each(function () {
+    if ($(this)[0].tagName.toLowerCase() === 'img') {
+      new InlineSloth($(this));
+    } else {
+      new BackgroundSloth($(this));
+    }
+  });
+}
+
 function BackgroundSloth($element, options) {
   Sloth.call(this, $element, options);
 }
+
+window.BackgroundSloth = BackgroundSloth;
 
 BackgroundSloth.prototype = new Sloth();
 
@@ -132,6 +146,8 @@ BackgroundSloth.prototype.onLoad = function ($img) {
 function InlineSloth($element, options) {
   Sloth.call(this, $element, options);
 }
+
+window.InlineSloth = InlineSloth;
 
 InlineSloth.prototype = new Sloth();
 
@@ -177,15 +193,5 @@ InlineSloth.prototype.onLoad = function ($img) {
   // Compensate the difference between the assumed ratio and the actual image height
   $wrapper.animate({ 'height': this.initialWidth / $img.width() * $img.height() }, 440, function () {
     $wrapper.css('height', '');
-  });
-};
-
-exports.init = function ($element, options) {
-  $('[data-src]').each(function () {
-    if ($(this)[0].tagName.toLowerCase() === 'img') {
-      new InlineSloth($(this));
-    } else {
-      new BackgroundSloth($(this));
-    }
   });
 };

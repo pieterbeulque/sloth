@@ -1,4 +1,4 @@
-(function () { 'use strict';  function Sloth($element, options) {
+(function ($, window, document, undefined) { 'use strict';  function Sloth($element, options) {
   options = options || {};
 
   /**
@@ -19,6 +19,8 @@
 
   this.init().bind();
 }
+
+window.Sloth = Sloth;
 
 /**
  * Init everything
@@ -87,9 +89,21 @@ Sloth.prototype.unbind = function () {
   return this;
 };
 
+Sloth.load = function (selector) {
+  $(selector).each(function () {
+    if ($(this)[0].tagName.toLowerCase() === 'img') {
+      new InlineSloth($(this));
+    } else {
+      new BackgroundSloth($(this));
+    }
+  });
+}
+
 function BackgroundSloth($element, options) {
   Sloth.call(this, $element, options);
 }
+
+window.BackgroundSloth = BackgroundSloth;
 
 BackgroundSloth.prototype = new Sloth();
 
@@ -132,6 +146,8 @@ BackgroundSloth.prototype.onLoad = function ($img) {
 function InlineSloth($element, options) {
   Sloth.call(this, $element, options);
 }
+
+window.InlineSloth = InlineSloth;
 
 InlineSloth.prototype = new Sloth();
 
@@ -179,14 +195,4 @@ InlineSloth.prototype.onLoad = function ($img) {
     $wrapper.css('height', '');
   });
 };
-
-exports.init = function ($element, options) {
-  $('[data-src]').each(function () {
-    if ($(this)[0].tagName.toLowerCase() === 'img') {
-      new InlineSloth($(this));
-    } else {
-      new BackgroundSloth($(this));
-    }
-  });
-};
- }())
+ }(jQuery, window, document))

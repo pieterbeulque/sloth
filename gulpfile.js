@@ -5,14 +5,14 @@ var gulp   = require('gulp'),
     uglify = require('gulp-uglify');
 
 gulp.task('build', function () {
-  gulp.src(['sloth.base.js', 'sloth.*-sloth.js', 'sloth.export.js'])
+  gulp.src(['sloth.base.js', 'sloth.*-sloth.js'])
       .pipe(concat('sloth.js'))
-      .pipe(wrap('(function () { \'use strict\';  <%= contents %> }())'))
+      .pipe(wrap('(function ($, window, document, undefined) { \'use strict\';  <%= contents %> }(jQuery, window, document))'))
       .pipe(gulp.dest('dist'));
 
-  gulp.src(['sloth.base.js', 'sloth.*-sloth.js', 'sloth.export.js'])
+  gulp.src(['sloth.base.js', 'sloth.*-sloth.js'])
       .pipe(concat('sloth.min.js'))
-      .pipe(wrap('(function () { \'use strict\';  <%= contents %> }())'))
+      .pipe(wrap('(function ($, window, document, undefined) { \'use strict\';  <%= contents %> }(jQuery, window, document))'))
       .pipe(uglify())
       .pipe(gulp.dest('dist'));
 });

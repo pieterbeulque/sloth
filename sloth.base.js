@@ -20,6 +20,8 @@ function Sloth($element, options) {
   this.init().bind();
 }
 
+window.Sloth = Sloth;
+
 /**
  * Init everything
  * @return {Sloth} Instance for chainability
@@ -86,3 +88,13 @@ Sloth.prototype.reset = function () {
 Sloth.prototype.unbind = function () {
   return this;
 };
+
+Sloth.load = function (selector) {
+  $(selector).each(function () {
+    if ($(this)[0].tagName.toLowerCase() === 'img') {
+      new InlineSloth($(this));
+    } else {
+      new BackgroundSloth($(this));
+    }
+  });
+}

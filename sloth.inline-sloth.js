@@ -2,6 +2,8 @@ function InlineSloth($element, options) {
   Sloth.call(this, $element, options);
 }
 
+window.InlineSloth = InlineSloth;
+
 InlineSloth.prototype = new Sloth();
 
 InlineSloth.prototype.constructor = Sloth;

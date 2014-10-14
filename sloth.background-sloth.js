@@ -2,6 +2,8 @@ function BackgroundSloth($element, options) {
   Sloth.call(this, $element, options);
 }
 
+window.BackgroundSloth = BackgroundSloth;
+
 BackgroundSloth.prototype = new Sloth();
 
 BackgroundSloth.prototype.constructor = Sloth;
