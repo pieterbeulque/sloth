@@ -1,11 +1,33 @@
 {
-  "name": "scroll-binder",
+  "name": "sloth",
   "version": "0.0.1",
-  "main": "scroll-binder.js",
-  "ignore": [
-    "test"
+  "homepage": "https://github.com/pieterbeulque/sloth",
+  "authors": [
+    "Pieter Beulque <pieter@mrhenry.be>",
+    "Steven Vandevelde <steven@mrhenry.be>"
   ],
+  "description": "A lazy image loading solution that works on both inline images and as background images, on any viewport, on any device",
   "dependencies": {
     "jquery": "*"
-  }
+  },
+  "main": "dist/sloth.min.js",
+  "keywords": [
+    "lazy",
+    "loading",
+    "assets",
+    "images",
+    "responsive"
+  ],
+  "license": "GPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "package.json",
+    "sloth.background-sloth.js",
+    "sloth.base.js",
+    "sloth.inline-sloth.js"
+  ]
 }
