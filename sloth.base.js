@@ -13,6 +13,7 @@ function Sloth($element, options) {
   this.source = this.$element.attr('data-src');
 
   this.isWidthInherited = false;
+  this.ratio = 16 / 9;
   this.initialWidth = 0;
   this.initialHeight = 0;
   this.width = 0;
@@ -29,7 +30,7 @@ window.Sloth = Sloth;
 Sloth.prototype.init = function () {
   var self = this;
 
-  // this.parseOptions();
+  this.parseOptions();
   this.parseSource();
   this.wrap();
   this.preload($.proxy(this.onLoad, this));
@@ -60,7 +61,7 @@ Sloth.prototype.reserveSpace = function () {
     }
   }
 
-  this.initialHeight = this.initialWidth * 9 / 16;
+  this.initialHeight = this.initialWidth * (1 / this.ratio);
 };
 
 Sloth.prototype.preload = function (callback) {
@@ -75,6 +76,16 @@ Sloth.prototype.preload = function (callback) {
 
 Sloth.prototype.parseSource = function () {
   this.source = this.$element.attr('data-src');
+};
+
+Sloth.prototype.parseOptions = function () {
+  if (!!this.$element.attr('data-ratio')) {
+    var ratio = this.$element.attr('data-ratio').split(':'),
+        width = parseInt(ratio[0], 10),
+        height = (!!ratio[1]) ? parseInt(ratio[1], 10) : 1;
+
+    this.ratio = width / height;
+  }
 };
 
 Sloth.prototype.bind = function () {

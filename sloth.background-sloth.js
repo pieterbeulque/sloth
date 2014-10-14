@@ -39,6 +39,9 @@ BackgroundSloth.prototype.wrap = function () {
 }
 
 BackgroundSloth.prototype.onLoad = function ($img) {
-  this.$element.removeClass('is-loading');
-  this.$element.find('.sloth__background').css('background-image', 'url(' + $img.attr('src') + ')').fadeIn(440);
+  var $element = this.$element;
+
+  $element.find('.sloth__background').css('background-image', 'url(' + $img.attr('src') + ')').fadeIn(880, function () {
+    $element.removeClass('is-loading');
+  });
 };

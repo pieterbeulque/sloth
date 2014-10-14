@@ -91,7 +91,7 @@
       -webkit-animation-name: rotate;
       -webkit-animation-duration: 2s;
       -webkit-animation-iteration-count: infinite;
-      z-index: 1;
+      z-index: 0;
     }
   </style>
 </head>
@@ -103,28 +103,32 @@
     </p>
     <h2>Lazy inline image</h2>
     <h3>Image without preset width</h3>
-    <img data-src="//c.assets.sh/gwABrIqc_Y3snxAr/medium" />
+    <img data-src="http://placekitten.com/g/1072/603" />
     <h3>Image with preset width (attribute)</h3>
-    <img data-src="//c.assets.sh/gwABrIqc_Y3snxAr/medium" width="450" />
+    <img data-src="http://placekitten.com/g/800/450" width="450" />
     <h3>Image with percentual width (CSS)</h3>
-    <img data-src="//c.assets.sh/gwABrIqc_Y3snxAr/medium" style="width: 50%" />
+    <img data-src="http://placekitten.com/g/1072/603" style="width: 50%" />
     <h3>Image with max-width: 100% / Responsive image</h3>
-    <img data-src="//c.assets.sh/gwABrIqc_Y3snxAr/medium" style="max-width: 100%" />
+    <img data-src="http://placekitten.com/g/1072/603" style="max-width: 100%" />
+    <h3>Image with predefined ratio 1:1</h3>
+    <img data-src="http://placekitten.com/g/800/800" data-ratio="1:1" />
+    <h3>Image with predefined width (attribute) and ratio 4:3</h3>
+    <img data-src="http://placekitten.com/g/800/600" width="450" data-ratio="4:3" />
+    <h3>Image with percentual width (CSS) and ratio 1:1</h3>
+    <img data-src="http://placekitten.com/g/700/700" style="width: 50%" data-ratio="1:1" />
     <h2>Lazy background image</h2>
     <h3>background-size: contain;</h3>
-    <div data-src="//c.assets.sh/gwABrIqc_Y3snxAr/medium" style="background-size: contain;">
+    <div data-src="http://placekitten.com/g/624/624" style="background-size: contain;">
       <p><strong>Sample content</strong></p>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere qui eius, nemo!</p>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis quisquam itaque illum quidem adipisci nostrum. Vel magni consectetur, optio porro recusandae eius est?</p>
     </div>
-    <h3>background-size: cover;</h3>
-    <div data-src="//c.assets.sh/gwABrIqc_Y3snxAr/medium" style="background-size: cover;">
+    <h3>background-size: cover; background-position: center;</h3>
+    <div data-src="http://placekitten.com/g/624/624" style="background-size: cover; background-position: center;">
       <p><strong>Sample content</strong></p>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere qui eius, nemo!</p>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis quisquam itaque illum quidem adipisci nostrum. Vel magni consectetur, optio porro recusandae eius est?</p>
     </div>
-    <h2>Loading animation</h2>
-    <img data-src="//c.assets.sh/gwABrIqc_Y3snxAr/medium" />
   </div>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script type="text/javascript" src="sloth.js"></script>

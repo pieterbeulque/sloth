@@ -13,6 +13,7 @@
   this.source = this.$element.attr('data-src');
 
   this.isWidthInherited = false;
+  this.ratio = 16 / 9;
   this.initialWidth = 0;
   this.initialHeight = 0;
   this.width = 0;
@@ -29,7 +30,7 @@ window.Sloth = Sloth;
 Sloth.prototype.init = function () {
   var self = this;
 
-  // this.parseOptions();
+  this.parseOptions();
   this.parseSource();
   this.wrap();
   this.preload($.proxy(this.onLoad, this));
@@ -60,7 +61,7 @@ Sloth.prototype.reserveSpace = function () {
     }
   }
 
-  this.initialHeight = this.initialWidth * 9 / 16;
+  this.initialHeight = this.initialWidth * (1 / this.ratio);
 };
 
 Sloth.prototype.preload = function (callback) {
@@ -75,6 +76,16 @@ Sloth.prototype.preload = function (callback) {
 
 Sloth.prototype.parseSource = function () {
   this.source = this.$element.attr('data-src');
+};
+
+Sloth.prototype.parseOptions = function () {
+  if (!!this.$element.attr('data-ratio')) {
+    var ratio = this.$element.attr('data-ratio').split(':'),
+        width = parseInt(ratio[0], 10),
+        height = (!!ratio[1]) ? parseInt(ratio[1], 10) : 1;
+
+    this.ratio = width / height;
+  }
 };
 
 Sloth.prototype.bind = function () {
@@ -140,8 +151,11 @@ BackgroundSloth.prototype.wrap = function () {
 }
 
 BackgroundSloth.prototype.onLoad = function ($img) {
-  this.$element.removeClass('is-loading');
-  this.$element.find('.sloth__background').css('background-image', 'url(' + $img.attr('src') + ')').fadeIn(440);
+  var $element = this.$element;
+
+  $element.find('.sloth__background').css('background-image', 'url(' + $img.attr('src') + ')').fadeIn(880, function () {
+    $element.removeClass('is-loading');
+  });
 };
 function InlineSloth($element, options) {
   Sloth.call(this, $element, options);
@@ -186,12 +200,12 @@ InlineSloth.prototype.onLoad = function ($img) {
   // Set width to the actual CSS property or inherited width instead of fixed placeholder
   $wrapper.css('width', this.width);
 
-  this.$element.hide().attr('src', $img.attr('src')).fadeIn(440, function () {
+  this.$element.hide().attr('src', $img.attr('src')).fadeIn(880, function () {
     $wrapper.removeClass('is-loading');
   });
 
   // Compensate the difference between the assumed ratio and the actual image height
-  $wrapper.animate({ 'height': this.initialWidth / $img.width() * $img.height() }, 440, function () {
+  $wrapper.animate({ 'height': this.initialWidth / $img.width() * $img.height() }, 220, function () {
     $wrapper.css('height', '');
   });
 };
