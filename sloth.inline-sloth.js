@@ -8,11 +8,30 @@ InlineSloth.prototype = new Sloth();
 
 InlineSloth.prototype.constructor = Sloth;
 
+InlineSloth.prototype.calculateDimensions = function () {
+  var $parent = this.$element.parent(),
+      width = parseInt(this.$element.css('width'), 10);
+
+  if (!!width) {
+    // Element has specified width
+    this.initialWidth = width;
+    this.width = (this.$element.get(0).style.width !== '') ? this.$element.get(0).style.width : this.initialWidth;
+  } else {
+    // Inherit width
+    this.initialWidth = parseInt(this.$element.parent().css('width'));
+    this.width = this.initialWidth;
+
+    // When having a max-width specified, the image doesn't need a set width
+    if (this.$element.css('max-width') !== 'none') {
+      this.width = '';
+    }
+  }
+
+  this.initialHeight = this.initialWidth * (1 / this.ratio);
+};
+
 InlineSloth.prototype.wrap = function () {
   var $wrapper = $('<span class="sloth is-loading" />');
-
-  // Calculate reserved width and height
-  this.reserveSpace();
 
   // Take in the reserved space in the DOM
   $wrapper.css({

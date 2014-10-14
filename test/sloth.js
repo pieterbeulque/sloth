@@ -1,23 +1,30 @@
-function Sloth($element, options) {
+function Sloth($element) {
   if (typeof $element === 'undefined') {
     return;
   }
 
-  options = options || {};
+  Sloth.settings = Sloth.settings || {
+    versions: {
+      220: 'small',
+      640: 'medium',
+      1280: 'large'
+    },
+    retina: '',
+    ratio: 16 / 9
+  };
 
   /**
    * Parent for all animated elements
    * @type {Object} Must be jQuery object
    */
-  this.$element   = $element || $('[data-src]').first();
-  this.$preloader = options.$preloader || $(document.body);
+  this.$element = $element || $('[data-src]').first();
 
   this.isInline = this.$element[0].tagName.toLowerCase() === 'img';
 
   this.source = this.$element.attr('data-src');
 
   this.isWidthInherited = false;
-  this.ratio = 16 / 9;
+  this.ratio = Sloth.settings.ratio;
   this.initialWidth = 0;
   this.initialHeight = 0;
   this.width = 0;
@@ -35,6 +42,7 @@ Sloth.prototype.init = function () {
   var self = this;
 
   this.parseOptions();
+  this.calculateDimensions();
   this.parseSource();
   this.wrap();
   this.preload($.proxy(this.onLoad, this));
@@ -46,40 +54,51 @@ Sloth.prototype.wrap = function () {};
 
 Sloth.prototype.onLoad = function () {};
 
-Sloth.prototype.reserveSpace = function () {
-  var $parent = this.$element.parent(),
-      width = parseInt(this.$element.css('width'), 10);
-
-  if (!!width) {
-    // Element has specified width
-    this.initialWidth = width;
-    this.width = (this.$element.get(0).style.width !== '') ? this.$element.get(0).style.width : this.initialWidth;
-  } else {
-    // Inherit width
-    this.initialWidth = parseInt(this.$element.parent().css('width'));
-    this.width = this.initialWidth;
-
-    // When having a max-width specified, the image doesn't need a set width
-    if (this.$element.css('max-width') !== 'none') {
-      this.width = '';
-    }
-  }
-
+Sloth.prototype.calculateDimensions = function () {
+  this.initialWidth = parseInt(this.$element.css('width'), 10);
+  this.width = (this.$element.get(0).style.width !== '') ? this.$element.get(0).style.width : this.initialWidth;
   this.initialHeight = this.initialWidth * (1 / this.ratio);
 };
 
 Sloth.prototype.preload = function (callback) {
   var $img = $('<img />');
 
-  $img.hide().appendTo(this.$preloader)
+  $img.hide().appendTo($(document.body))
       .on('load', function () {
         callback($img);
+        $img.remove();
       })
       .attr('src', this.source);
 };
 
 Sloth.prototype.parseSource = function () {
-  this.source = this.$element.attr('data-src');
+  var pixelRatio = window.devicePixelRatio || window.webkitDevicePixelRatio || window.mozDevicePixelRatio,
+      modifier = '',
+      neededWidth;
+
+  pixelRatio = (typeof pixelRatio === 'undefined') ? 1 : parseFloat(pixelRatio);
+
+  for (var size in Sloth.settings.versions) {
+    if (Sloth.settings.versions.hasOwnProperty(size)) {
+      var version = Sloth.settings.versions[size];
+
+      if (this.initialWidth > parseInt(size, 10)) {
+        modifier = version;
+      } else {
+        break;
+      }
+    }
+  }
+
+  if (!!this.$element.attr('data-src-' + modifier)) {
+    this.source = this.$element.attr('data-src-' + modifier);
+  } else {
+    this.source = this.$element.attr('data-src');
+  }
+
+  if (pixelRatio > 1 && !!Sloth.settings.retina) {
+    this.source += Sloth.settings.retina;
+  }
 };
 
 Sloth.prototype.parseOptions = function () {
@@ -173,11 +192,30 @@ InlineSloth.prototype = new Sloth();
 
 InlineSloth.prototype.constructor = Sloth;
 
+InlineSloth.prototype.calculateDimensions = function () {
+  var $parent = this.$element.parent(),
+      width = parseInt(this.$element.css('width'), 10);
+
+  if (!!width) {
+    // Element has specified width
+    this.initialWidth = width;
+    this.width = (this.$element.get(0).style.width !== '') ? this.$element.get(0).style.width : this.initialWidth;
+  } else {
+    // Inherit width
+    this.initialWidth = parseInt(this.$element.parent().css('width'));
+    this.width = this.initialWidth;
+
+    // When having a max-width specified, the image doesn't need a set width
+    if (this.$element.css('max-width') !== 'none') {
+      this.width = '';
+    }
+  }
+
+  this.initialHeight = this.initialWidth * (1 / this.ratio);
+};
+
 InlineSloth.prototype.wrap = function () {
   var $wrapper = $('<span class="sloth is-loading" />');
-
-  // Calculate reserved width and height
-  this.reserveSpace();
 
   // Take in the reserved space in the DOM
   $wrapper.css({
