@@ -9,18 +9,24 @@ BackgroundSloth.prototype = new Sloth();
 BackgroundSloth.prototype.constructor = Sloth;
 
 BackgroundSloth.prototype.wrap = function () {
-  var $wrapper = $('<div class="sloth__content" />'),
-      $background = $('<div class="sloth__background" />');
+  var $background = $('<div class="sloth__background" />');
 
-  if (this.$element.css('position')) {
+  this.$element.addClass('sloth is-loading');
+
+  // Make sure position:absolute on children is relative to the current element
+  if (this.$element.css('position') === 'static') {
     this.$element.css('position', 'relative');
   }
 
-  // Stretch wrapper, according to padding etc
-  $wrapper.css({
-    'position': 'relative',
-    'z-index': 2
-  });
+  if (this.$element.html().length > 0) {
+    // Wrap content
+    this.$element.wrapInner(
+      $('<div class="sloth__content" />').css({
+        'position': 'relative',
+        'z-index': 2
+      })
+    );
+  }
 
   // Stretch background, inherit background properties from element
   $background.css({
@@ -31,12 +37,8 @@ BackgroundSloth.prototype.wrap = function () {
     'bottom': 0,
     'z-index': 1,
     'background': this.$element.css('background')
-  }).hide();
-
-  this.$element.addClass('sloth is-loading')
-               .wrapInner($wrapper)
-               .append($background);
-}
+  }).hide().appendTo(this.$element);
+};
 
 BackgroundSloth.prototype.onLoad = function ($img) {
   var $element = this.$element;

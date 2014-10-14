@@ -1,4 +1,8 @@
 function Sloth($element, options) {
+  if (typeof $element === 'undefined') {
+    return;
+  }
+
   options = options || {};
 
   /**
@@ -69,7 +73,7 @@ Sloth.prototype.preload = function (callback) {
 
   $img.hide().appendTo(this.$preloader)
       .on('load', function () {
-        callback($img)
+        callback($img);
       })
       .attr('src', this.source);
 };
@@ -108,4 +112,4 @@ Sloth.load = function (selector) {
       new BackgroundSloth($(this));
     }
   });
-}
+};
