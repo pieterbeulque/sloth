@@ -14,7 +14,7 @@ BackgroundSloth.prototype.wrap = function () {
   this.$element.addClass('sloth is-loading');
 
   // Make sure position:absolute on children is relative to the current element
-  if (this.$element.css('position') === 'static') {
+  if (this.$element.css('position') === 'static' || this.$element.css('position') === 'relative') {
     this.$element.css('position', 'relative');
   }
 
